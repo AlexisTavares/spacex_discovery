@@ -8,24 +8,34 @@ import 'package:spacex_discovery/core/viewmodel/launchpad_viewmodel.dart';
 import 'package:spacex_discovery/core/models/launchpad.dart';
 
 class MapScreen extends StatefulWidget {
-  MapScreen({Key key}) : super(key: key);
-
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-  static CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.090240, -95.712891),
-    zoom: 1,
-  );
-  Set<Marker> launchpadsMarkerSet = Set();
+  GoogleMapController mapController;
+  final LatLng _center = const LatLng(45.521563, -122.677433);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      initialCameraPosition: _kGooglePlex,
-      markers: launchpadsMarkerSet,
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Map'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ),
+      ),
     );
   }
 }

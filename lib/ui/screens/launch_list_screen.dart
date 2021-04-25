@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:provider/provider.dart';
+import 'package:spacex_discovery/core/constants/route_paths.dart';
 import 'package:spacex_discovery/core/viewmodel/launch_viewmodel.dart';
 import 'package:spacex_discovery/ui/components/launch_card.dart';
 
@@ -11,37 +12,44 @@ class LaunchListScreen extends StatelessWidget {
       create: (_) => LaunchViewModel(),
       child: Consumer<LaunchViewModel>(
         builder: (context, LaunchViewModel model, child) => Scaffold(
-            body: Container(
-          child: Column(children: [
-            if (model.isLoadingNextLaunch)
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            else
-              Column(
-                children: [
-                  Text("Next launch in: "),
-                  CountdownTimer(
-                    endTime: model.nextLaunch.date_unix,
-                  ),
-                ],
-              ),
-            if (model.isLoadingUpcomingLaunches)
-              Center(
-                child: CircularProgressIndicator(),
-              )
-            else
-              ListView.builder(
-                itemBuilder: (context, position) => Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                  child: LaunchCard(
-                    launch: model.upcomingLaunches[position],
+          body: model.isLoadingNextLaunch || model.isLoadingUpcomingLaunches
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  physics: ScrollPhysics(),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        "Next launch in: ",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                      CountdownTimer(
+                        endTime: model.nextLaunch.date_unix * 1000,
+                        endWidget:
+                            Text("${model.nextLaunch.name} has launched!"),
+                      ),
+                      ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, position) => Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                          child: TextButton(
+                            onPressed: () {
+                              model.getLaunchById(
+                                  model.upcomingLaunches[position].id);
+                            },
+                            child: LaunchCard(
+                              launch: model.upcomingLaunches[position],
+                            ),
+                          ),
+                        ),
+                        itemCount: model.upcomingLaunches.length,
+                      ),
+                    ],
                   ),
                 ),
-                itemCount: model.upcomingLaunches.length,
-              ),
-          ]),
-        )),
+        ),
       ),
     );
   }

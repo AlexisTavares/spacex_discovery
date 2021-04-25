@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:spacex_discovery/core/models/launch.dart';
+import 'package:spacex_discovery/core/viewmodel/launch_viewmodel.dart';
 
 class LaunchDetailsScreen extends StatefulWidget {
   @override
@@ -9,34 +11,31 @@ class LaunchDetailsScreen extends StatefulWidget {
 }
 
 class _LaunchDetailsScreenState extends State<LaunchDetailsScreen> {
-  Launch launch;
-
-  void _init(BuildContext context) async {
-    launch = ModalRoute.of(context).settings.arguments;
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(this.launch.name),
-        ),
-        body: launch != null
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Column(
-                children: [
-                  launch.links.patch.large != null
-                      ? Image.network(launch.links.patch.large)
-                      : Icon(CupertinoIcons.rocket_fill),
-                  Text(
-                    launch.details,
-                  ),
-                  Text(
-                    "Launching: ${launch.date_local}",
-                  ),
-                ],
-              ));
+    return ChangeNotifierProvider(
+        create: (_) => LaunchViewModel(),
+        child: Consumer<LaunchViewModel>(
+            builder: (context, LaunchViewModel model, child) => Scaffold(
+                appBar: AppBar(
+                  title: Text(model.launch.name),
+                ),
+                body: model.launch != null
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Column(
+                        children: [
+                          model.launch.links.patch.large != null
+                              ? Image.network(model.launch.links.patch.large)
+                              : Icon(CupertinoIcons.rocket_fill),
+                          Text(
+                            model.launch.details,
+                          ),
+                          Text(
+                            "Launching: ${model.launch.date_local}",
+                          ),
+                        ],
+                      ))));
   }
 }

@@ -16,9 +16,15 @@ class LaunchHistoryScreen extends StatelessWidget {
                 )
               : ListView.builder(
                   itemBuilder: (context, position) => Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                    child: LaunchCard(
-                      launch: model.pastLaunches[position],
+                    padding: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    child: TextButton(
+                      child: LaunchCard(
+                        launch: model.pastLaunches[position],
+                      ),
+                      onPressed: () {
+                        model
+                            .getLaunchById(model.upcomingLaunches[position].id);
+                      },
                     ),
                   ),
                   itemCount: model.pastLaunches.length,

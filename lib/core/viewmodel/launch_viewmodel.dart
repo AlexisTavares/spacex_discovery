@@ -47,7 +47,7 @@ class LaunchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getLaunchById(String id) async {
+  getLaunchById(String id) async {
     try {
       var response = await _api.getLaunch(id);
       launch = Launch.fromJson(response.data);
