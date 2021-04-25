@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:spacex_discovery/core/constants/route_paths.dart';
 
 import 'package:spacex_discovery/ui/screens/favorites_screen.dart';
-import 'package:spacex_discovery/ui/screens/informations_screen.dart';
+import 'package:spacex_discovery/ui/screens/company_informations_screen.dart';
 import 'package:spacex_discovery/ui/screens/launch_details_screen.dart';
 import 'package:spacex_discovery/ui/screens/launch_history_screen.dart';
 import 'package:spacex_discovery/ui/screens/launch_list_screen.dart';
-import 'package:spacex_discovery/ui/screens/launch_sites_map_screen.dart';
-import 'package:spacex_discovery/ui/screens/notification_settings_screen.dart';
+import 'package:spacex_discovery/ui/screens/map_screen.dart';
+import 'package:spacex_discovery/ui/screens/settings_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -25,7 +25,7 @@ class AppRouter {
 
       case RoutePaths.LaunchSitesMap:
         return MaterialPageRoute(
-            builder: (_) => LaunchSitesMapScreen(), settings: settings);
+            builder: (_) => MapScreen(), settings: settings);
         break;
 
       case RoutePaths.LaunchHistory:
@@ -40,12 +40,12 @@ class AppRouter {
 
       case RoutePaths.Informations:
         return MaterialPageRoute(
-            builder: (_) => InformationsScreen(), settings: settings);
+            builder: (_) => CompanyInformationsScreen(), settings: settings);
         break;
 
       case RoutePaths.NotificationSettings:
         return MaterialPageRoute(
-            builder: (_) => NotificationSettingsScreen(), settings: settings);
+            builder: (_) => SettingsScreen(), settings: settings);
         break;
 
       default:

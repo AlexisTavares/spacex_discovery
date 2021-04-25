@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spacex_discovery/shared/router.dart';
-import 'package:spacex_discovery/ui/screens/launch_list_screen.dart';
+import 'package:spacex_discovery/ui/screens/home_screen.dart';
 
 class App extends StatelessWidget {
   @override
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LaunchListScreen(),
+      home: Home(),
       onGenerateRoute: AppRouter.generateRoute,
     );
   }

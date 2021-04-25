@@ -1,22 +1,42 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class LaunchDetailsScreen extends StatelessWidget {
+import 'package:spacex_discovery/core/models/launch.dart';
+
+class LaunchDetailsScreen extends StatefulWidget {
+  @override
+  _LaunchDetailsScreenState createState() => _LaunchDetailsScreenState();
+}
+
+class _LaunchDetailsScreenState extends State<LaunchDetailsScreen> {
+  Launch launch;
+
+  void _init(BuildContext context) async {
+    launch = ModalRoute.of(context).settings.arguments;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("Launches"),
-      ),
-      body:
-          Center(), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        appBar: AppBar(
+          title: Text(this.launch.name),
+        ),
+        body: launch != null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                children: [
+                  launch.links.patch.large != null
+                      ? Image.network(launch.links.patch.large)
+                      : Icon(CupertinoIcons.rocket_fill),
+                  Text(
+                    launch.details,
+                  ),
+                  Text(
+                    "Launching: ${launch.date_local}",
+                  ),
+                ],
+              ));
   }
 }

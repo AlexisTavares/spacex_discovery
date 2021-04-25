@@ -13,7 +13,7 @@ class FavoritesScreen extends StatelessWidget {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Launches"),
+        title: Text("Favorite Launches"),
       ),
       body:
           Center(), // This trailing comma makes auto-formatting nicer for build methods.

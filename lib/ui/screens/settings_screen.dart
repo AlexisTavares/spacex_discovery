@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InformationsScreen extends StatelessWidget {
+class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -13,7 +13,7 @@ class InformationsScreen extends StatelessWidget {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("Launches"),
+        title: Text("Settings"),
       ),
       body:
           Center(), // This trailing comma makes auto-formatting nicer for build methods.

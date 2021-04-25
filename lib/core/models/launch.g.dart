@@ -8,16 +8,28 @@ part of 'launch.dart';
 
 Launch _$LaunchFromJson(Map<String, dynamic> json) {
   return $checkedNew('Launch', json, () {
-    final val = Launch(
-      name: $checkedConvert(json, 'name', (v) => v as String),
-      launchDate: $checkedConvert(json, 'date_utc', (v) => v as String),
-    );
+    final val = Launch();
+    $checkedConvert(json, 'id', (v) => val.id = v as String);
+    $checkedConvert(json, 'name', (v) => val.name = v as String);
+    $checkedConvert(json, 'success', (v) => val.success = v as bool);
+    $checkedConvert(json, 'date_unix', (v) => val.date_unix = v as int);
+    $checkedConvert(json, 'date_local', (v) => val.date_local = v as String);
+    $checkedConvert(json, 'details', (v) => val.details = v as String);
+    $checkedConvert(
+        json,
+        'links',
+        (v) => val.links =
+            v == null ? null : Links.fromJson(v as Map<String, dynamic>));
     return val;
   });
 }
 
-// ignore: unused_element
 Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
+      'id': instance.id,
       'name': instance.name,
-      'launchDate': instance.launchDate,
+      'success': instance.success,
+      'date_unix': instance.date_unix,
+      'date_local': instance.date_local,
+      'details': instance.details,
+      'links': instance.links,
     };

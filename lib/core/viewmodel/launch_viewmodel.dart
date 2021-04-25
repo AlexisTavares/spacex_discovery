@@ -6,24 +6,79 @@ import 'package:spacex_discovery/core/models/launch.dart';
 class LaunchViewModel extends ChangeNotifier {
   Api _api = locator<Api>();
 
-  List<Launch> launches = [];
+  List<Launch> upcomingLaunches = [];
+  List<Launch> pastLaunches = [];
+  Launch launch;
+  Launch nextLaunch;
 
-  // The view is loading by default, waiting for API call to succeed
-  bool isLoading = true;
+  bool isLoadingUpcomingLaunches = true;
+  bool isLoadingPastLaunches = true;
+  bool isLoadingLaunch = true;
+  bool isLoadingNextLaunch = true;
 
   LaunchViewModel() {
-    loadData();
+    getUpcomingLaunches();
+    getPastLaunches();
+    getNextLaunch();
   }
 
-  void loadData() async {
+  void getUpcomingLaunches() async {
     try {
       var response = await _api.getUpcomingLaunches();
-      launches.addAll(List<Launch>.from(
+      upcomingLaunches.addAll(List<Launch>.from(
           response.data.map((item) => Launch.fromJson(item))));
     } catch (error, stackTrace) {
       print(stackTrace);
     }
-    isLoading = false;
+    isLoadingUpcomingLaunches = false;
     notifyListeners();
   }
+
+  void getPastLaunches() async {
+    try {
+      var response = await _api.getPastLaunches();
+      pastLaunches.addAll(List<Launch>.from(
+          response.data.map((item) => Launch.fromJson(item))));
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    }
+    isLoadingPastLaunches = false;
+    notifyListeners();
+  }
+
+  void getLaunchById(String id) async {
+    try {
+      var response = await _api.getLaunch(id);
+      launch = Launch.fromJson(response.data);
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    }
+    notifyListeners();
+  }
+
+  void getNextLaunch() async {
+    try {
+      var response = await _api.getNextLaunch();
+      nextLaunch = Launch.fromJson(response.data);
+    } catch (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+    }
+    isLoadingNextLaunch = false;
+    notifyListeners();
+  }
+
+/*
+  void setLaunchFavorite(String launchId, bool isFavorite) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool isFav = await isLaunchFavorite(launchId) ?? false;
+    await sharedPreferences.setBool("launch_$launchId", !isFav);
+  }
+
+  Future<bool> isLaunchFavorite(String launchId) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool("launch_$launchId");
+  }*/
 }
